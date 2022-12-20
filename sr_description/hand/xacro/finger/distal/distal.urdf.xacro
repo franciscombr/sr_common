@@ -76,6 +76,9 @@
       </joint>
     </xacro:unless>
     <!-- extensions -->
+    <xacro:unless value="${sim_platform == 'gazebo'}">
+      <xacro:distal_transmission />
+    </xacro:unless>
     <xacro:distal_gazebo />
   </xacro:macro>
 </robot>

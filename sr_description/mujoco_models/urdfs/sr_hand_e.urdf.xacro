@@ -1,0 +1,45 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"
+       xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" name="ursrh">
+
+    <xacro:arg name="initial_y" default="0.0"/>
+    <xacro:arg name="initial_z" default="0.0"/>
+    <xacro:arg name="initial_yaw" default="0.0"/>
+    
+    <xacro:arg name="hand_type" default="hand_e"/>
+    <xacro:arg name="hand_version" default="E3M5"/>
+    <xacro:arg name="side" default="right"/>
+    <xacro:arg name="fingers" default="all"/>
+    <xacro:arg name="tip_sensors" default="pst"/>
+    <xacro:arg name="mid_sensors" default="none"/>
+    <xacro:arg name="prox_sensors" default="none"/>
+    <xacro:arg name="palm_sensor" default="none"/>
+    <xacro:arg name="sim_platform" default="mujoco"/>
+
+    <xacro:if value="${'$(arg side)' == 'right'}">
+        <xacro:arg name="arm_prefix" default="ra" />
+        <xacro:arg name="hand_prefix" default="rh" />
+    </xacro:if>
+    <xacro:if value="${'$(arg side)' == 'left'}">
+        <xacro:arg name="arm_prefix" default="la" />
+        <xacro:arg name="hand_prefix" default="lh" />
+    </xacro:if>
+
+
+    <xacro:include filename="$(find sr_description)/other/xacro/materials.urdf.xacro"/>
+    <xacro:include filename="$(find sr_description)/hand/xacro/hand.urdf.xacro"/>
+    <xacro:include filename="$(find sr_description)/other/xacro/gazebo.urdf.xacro"/>
+
+    <link name="world"/>
+    <joint name="rh_world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="$(arg hand_prefix)_forearm"/>
+        <origin xyz="0.0 $(arg initial_y) $(arg initial_z)" rpy="0.0 0.0 $(arg initial_yaw)"/>
+    </joint> 
+    <xacro:sr_hand side="$(arg side)" hand_type="$(arg hand_type)" hand_version="$(arg hand_version)"
+                   fingers="$(arg fingers)" tip_sensors="$(arg tip_sensors)" mid_sensors="$(arg mid_sensors)"
+                   prox_sensors="$(arg prox_sensors)" palm_sensor="$(arg palm_sensor)" mounting_plate="true" sim_platform="$(arg sim_platform)"/>
+    
+
+</robot>

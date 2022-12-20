@@ -18,7 +18,7 @@
   <xacro:arg name="palm_sensor" default="none"/>
   <xacro:arg name="mounting_plate" default="false"/>
 
-  <link name="world" />
+  <link name="world"/>
   <xacro:if value="${'$(arg side)' == 'right'}">
     <joint name="rh_world_joint" type="fixed">
       <parent link="world" />

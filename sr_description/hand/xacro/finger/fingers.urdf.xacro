@@ -7,7 +7,7 @@
   <xacro:include filename="$(find sr_description)/hand/xacro/finger/middle/middle_and_distal_bt_2p.urdf.xacro" />
 
   <xacro:macro name="finger" params="hand_type:=^ hand_version:=^ tip_sensor:=^|pst mid_sensor:=^|none prox_sensor:=^|none reflect:=^ prefix:=^
-                                     link_prefix joint_prefix parent *origin *axis">
+                                     link_prefix joint_prefix parent *origin *axis sim_platform:=^" >
 
     <!-- Little finger special case -->
     <xacro:if value="${link_prefix == 'lf'}">

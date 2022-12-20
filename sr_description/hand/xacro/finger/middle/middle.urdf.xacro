@@ -8,8 +8,9 @@
 
   <xacro:include filename="$(find sr_description)/hand/xacro/finger/middle/middle.gazebo.xacro" />
   <xacro:include filename="$(find sr_description)/hand/xacro/finger/middle/middle.transmission.xacro" />
+  <xacro:include filename="$(find sr_description)/hand/xacro/finger/middle/middle.mujoco.transmission.xacro" />
 
-  <xacro:macro name="middle" params="hand_type:=^ hand_version:=^ prefix:=^ link_prefix:=^ joint_prefix:=^ parent">
+  <xacro:macro name="middle" params="hand_type:=^ hand_version:=^ prefix:=^ link_prefix:=^ joint_prefix:=^ parent sim_platform:=^" >
     <link name="${prefix}${link_prefix}middle">
       <inertial>
         <origin xyz="0 0 0.0125" rpy="0 0 0" />
@@ -56,7 +57,12 @@
       <implicitSpringDamper>1</implicitSpringDamper>
     </gazebo>
     <!-- extensions -->
-    <xacro:middle_transmission />
+    <xacro:if value="${sim_platform == 'gazebo'}">
+      <xacro:middle_transmission />
+    </xacro:if>
+    <xacro:unless value="${sim_platform == 'gazebo'}">
+      <xacro:middle_transmission_mujoco />
+    </xacro:unless>
     <xacro:middle_gazebo />
   </xacro:macro>
 </robot>
